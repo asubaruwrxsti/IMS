@@ -1,1 +1,1 @@
-Minimal ims using php
+Minimal ims using codeigniter.
