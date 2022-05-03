@@ -34,13 +34,11 @@ class invoiceModel extends Model
     {
         foreach ($data as $key) {
 
-            $sql = "UPDATE orders SET First_Name = :First_Name:, Last_Name = :Last_Name: Device = :Device:, Contact = :Contact: ,Comments = :Comments:, Qty = :Qty:, Status_Repaired = :Status_Repaired:,
+            $sql = "UPDATE orders SET Device = :Device:, Contact = :Contact: ,Comments = :Comments:, Qty = :Qty:, Status_Repaired = :Status_Repaired:,
             Status_Dispatched = :Status_Dispatched:, Date_Dispatched = :Date_Dispatched:, Price = :Price:, Status_Paid = :Status_Paid:, Operator_Dispatch = :Operator_Dispatch: WHERE orders.id = :id:";
 
             $this->db->query($sql, [
                 'id' => $id,
-                'First_Name' => $key['First_Name'],
-                'Last_Name' => $key['Last_Name'],
                 'Device' => $key['Device'],
                 'Contact' => $key['Contact'],
                 'Comments' => $key['Comments'],
@@ -57,13 +55,13 @@ class invoiceModel extends Model
 
     public function get_orders()
     {
-        $data = $this->db->query('SELECT * FROM orders');
+        $data = $this->db->query('SELECT * FROM orders WHERE orders.Status_Paid = 0 AND orders.Status_Dispatched = 0');
         return $data;
     }
 
     public function getArchivedOrders()
     {
-        $data = $this->db->query('SELECT * FROM orders WHERE orders.Status_Repaired = 1');
+        $data = $this->db->query('SELECT * FROM orders WHERE orders.Status_Paid = 1 AND orders.Status_Dispatched = 1');
         return $data;
     }
     
