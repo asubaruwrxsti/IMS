@@ -1,0 +1,63 @@
+.ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+.li {
+    float: left;
+}
+
+.li .a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.li .a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #04AA6D;
+}
+
+button {
+    padding: 5px 10;
+    margin: 5px auto;
+    border-radius: 5px;
+    border: none;
+    background: #bdbcbb;
+    color: #fff;
+}
+
+button:hover {
+    background: #808080;
+}
+
+.statusTrue {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.statusFalse {
+    background-color: #f54242;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
