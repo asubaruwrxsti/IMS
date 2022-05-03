@@ -44,7 +44,7 @@ class invoiceController extends BaseController
     public function createInvoice()
     {
         $barcode = $this->generateRandomString();
-        $now = new Time('now');
+        $now = date('d-m-Y');
 
         $values[] = array(
             'BARCODE' => $barcode,
@@ -61,7 +61,7 @@ class invoiceController extends BaseController
         $model = model(invoiceModel::class);
         $model->createInvoice($values);
 
-        return redirect()->to(site_url('/public/'));
+        return redirect()->to(site_url('/'));
     }
 
     public function edit($id)
@@ -79,8 +79,6 @@ class invoiceController extends BaseController
         if($this->request->getVar('Status_Dispatched')== 1) $Date_Dispatched = new Time('now', 'Europe/London'); else $Date_Dispatched = NULL;
 
         $values[] = array(
-            'First_Name' => $this->request->getVar('First_Name'),
-            'Last_Name' => $this->request->getVar('Last_Name'),
             'Operator' => $this->request->getVar('Operator'),
             'Device' => $this->request->getVar('Device'),
             'Contact' => $this->request->getVar('Contact'),
@@ -97,7 +95,7 @@ class invoiceController extends BaseController
         $model = model(invoiceModel::class);
         $model->editInvoice($id, $values);
 
-        return redirect()->to(site_url('/public/'));
+        return redirect()->to(site_url('/'));
     }
 
     public function delete($id)
