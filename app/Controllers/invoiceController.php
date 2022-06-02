@@ -25,7 +25,8 @@ class invoiceController extends BaseController
         $model = model(invoiceModel::class);
         $data['data'] = $model->get_orders();
 
-        return view("invoiceView", $data);
+        echo view('/templates/header/index.php');
+        echo view("invoiceView", $data);
     }
 
     public function archive()
@@ -33,18 +34,20 @@ class invoiceController extends BaseController
         $model = model(invoiceModel::class);
         $data['data'] = $model->getArchivedOrders();
 
-        return view("archiveView", $data);
+        echo view('/templates/header/index.php');
+        echo view("archiveView", $data);
     }
 
     public function create()
     {
-        return view("createInvoiceView");
+        echo view('/templates/header/index.php');
+        echo view("createInvoiceView");
     }
 
     public function createInvoice()
     {
         $barcode = $this->generateRandomString();
-        $now = date('d-m-Y');
+        $now = date('m/d/Y');
 
         $values[] = array(
             'BARCODE' => $barcode,
@@ -70,7 +73,8 @@ class invoiceController extends BaseController
             $model = model(invoiceModel::class);
             $data['data'] = $model->fetchOrderData($id);
 
-            return view("editInvoiceView", $data);
+            echo view('/templates/header/index.php');
+            echo view("editInvoiceView", $data);
         }
     }
 
@@ -104,6 +108,8 @@ class invoiceController extends BaseController
             $model = model(invoiceModel::class);
             $model->deleteOrderData($id);
         }
+
+        return redirect()->to(site_url('/'));
     }
 
     public function print($id)
@@ -112,7 +118,8 @@ class invoiceController extends BaseController
             $model = model(invoiceModel::class);
             $data['data'] = $model->fetchOrderData($id);
 
-            return view("printInvoiceView", $data);
+            echo view('/templates/header/index.php');
+            echo view("printInvoiceView", $data);
         }
     }
 }

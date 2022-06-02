@@ -1,139 +1,151 @@
 <html>
 
-<head>
-	<script src="node_modules\jquery\dist\jquery.js" type="text/javascript"></script>
-
-	<script type="text/javascript" src="bootstrap3-typeahead.js"></script>
-	<link href="bootstrap.css" rel="stylesheet">
-	<link href="typeaheadjs.css" rel="stylesheet">
-
-	<script type="text/javascript" src="node_modules\datatables.net\js\jquery.dataTables.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-
-	<style>
-		.ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-			position: sticky;
-			top: 0;
-			width: 100%;
-		}
-
-		.li {
-			float: left;
-		}
-
-		.li .a {
-			display: block;
-			color: white;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-
-		.li .a:hover:not(.active) {
-			background-color: #111;
-		}
-
-		.active {
-			background-color: #04AA6D;
-		}
-
-		button {
-			padding: 5px 10;
-			margin: 5px auto;
-			border-radius: 5px;
-			border: none;
-			background: #bdbcbb;
-			color: #fff;
-		}
-
-		button:hover {
-			background: #808080;
-		}
-
-		.statusTrue {
-			background-color: #04AA6D;
-			border: none;
-			color: white;
-			padding: 5px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-		}
-
-		.statusFalse {
-			background-color: #f54242;
-			border: none;
-			color: white;
-			padding: 5px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-		}
-	</style>
-</head>
-
 <body>
 	<ul class="ul">
-		<li class="li"><a class="active a" style="cursor: pointer;">Faturat Aktive</a></li>
-		<li class="li"><a class="a" href="/public/create/">Krijo Fature</a></li>
-		<li class="li"><a class="a" href="/public/archivedView/">Arkiva</a></li>
-	</ul> </br>
+		<li class="li"><a class="active a" href="/">Faturat Aktive</a></li>
+		<li class="li"><a class="a" href="/create/">Krijo Fature</a></li>
+		<li class="li"><a class="a" href="/archivedView/">Arkiva</a></li>
+		<li class="li"><a class="a" href="/inventory">Inventory</a></li>
+	</ul>
 
-	<h1> Faturat Aktive </h1> </br>
+	<h1> Faturat Aktive </h1>
 
-	<table id="orders" class="display">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Data e hyrjes</th>
-				<th>Barcode</th>
-				<th>Klienti</th>
-				<th>Kontakt</th>
-				<th>Paisja</th>
-				<th>Sasia</th>
-				<th>Komente</th>
-				<th>Riparuar</th>
-				<th>Veprime</th>
-			</tr>
-		</thead>
-		<tbody>
+	<div class="container mx-auto border border-secondary rounded px-4 py-4 bg-light">
 
-			<?php
+		<div class="form-group pt-3 mb-3">
+			<div class="row">
 
-			// $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+				<div class="col col-auto">
+					<div class="input-group mb-3 pl-5">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">Minimum date</span>
+						</div>
+						<input type="text" id="min" name="min" class="form-control">
+					</div>
+				</div>
 
-			foreach ($data->getResult() as $key) {
-				echo "<tr> <td>" . $key->BARCODE . "</td>";
-				echo "<td>" . $key->Date_Entry . "</td>";
-				//echo '<td class="barcode"> <img src="data:image/png;base64,' . base64_encode($generator->getBarcode($key->BARCODE, $generator::TYPE_CODE_128)) . '"></td>';
-				echo '<td> <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http%3A'.$key->BARCODE.'&choe=UTF-8" /> </td>';
-				echo "<td>" . $key->First_Name . " " . $key->Last_Name . "</td>";
-				echo "<td>" . $key->Contact . "</td>";
-				echo "<td>" . $key->Device . "</td>";
-				echo "<td>" . $key->Qty . "</td>";
-				echo "<td>" . $key->Comments . "</td>";
-				if ($key->Status_Repaired == 0) echo "<td><button class='statusFalse' style='pointer-events: none;'>Pa Riparuar</button></td>";
-				else echo "<td><button class='statusTrue'>Riparuar</button></td>";
-				echo "<td> <button class='print' value = '" . $key->ID . "'>Print</button> <button class='edit' value = '" . $key->ID . "'>Edit</button> <button class='delete' value = '" . $key->ID . "'>Delete</button> </td> </tr>";
-			}
-			?>
+				<div class="col col-auto">
+					<div class="input-group mb-3 pl-5">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">Maximum date</span>
+						</div>
+						<input type="text" id="max" name="max" class="form-control">
+					</div>
+				</div>
+			</div>
+		</div>
 
-		</tbody>
-	</table>
+		<table id="orders" class="display">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Paisja</th>
+					<th>Data</th>
+					<th>Kontakt</th>
+					<th>Statusi</th>
+					<th>Veprime</th>
+					<th>Detaje</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<?php
+				//$generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+				foreach ($data->getResult() as $key) {
+				?>
+					<tr>
+						<td>
+							<p> <?php echo $key->BARCODE ?> </p>
+						</td>
+						<td>
+							<p> <?php echo $key->Device ?> </p>
+						</td>
+						<td>
+							<p> <?php echo $key->Date_Entry ?> </p>
+						</td>
+						<td>
+							<p> <?php echo $key->Contact ?> </p>
+						</td>
+						<?php if ($key->Status_Repaired == 0) echo "<td><button class='statusFalse btn btn-danger' >Pa riparuar</button></td>";
+						else echo "<td><button class='statusTrue btn btn-success'>Riparuar</button></td>";
+						?>
+						<td>
+							<button class='print btn btn-secondary' value='<?php echo $key->ID ?>'>Print</button>
+							<button class='edit btn btn-warning' value='<?php echo $key->ID ?>'>Edit</button>
+							<button class='delete btn btn-danger' value='<?php echo $key->ID ?>'>Delete</button>
+						</td>
+						<td>
+
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php echo $key->BARCODE ?>">
+								+
+							</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="<?php echo $key->BARCODE ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLongTitle"><?php echo $key->First_Name . " " . $key->Last_Name ?></h5>
+										</div>
+										<div class="modal-body">
+											<img class="rounded mx-auto d-block" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http%3A<?php echo $key->BARCODE ?>&choe=UTF-8" />
+											<p>Sasia: <?php echo $key->Qty ?> </p>
+											<p>Marresi: <?php echo $key->Operator ?> </p>
+											<p>Cmimi: <?php echo $key->Price ?> </p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+	</div>
 </body>
 
 <script>
+	var minDate, maxDate;
+
+	// Custom filtering function which will search data in column four between two values
+	$.fn.dataTable.ext.search.push(
+		function(settings, data, dataIndex) {
+			var min = minDate.val();
+			var max = maxDate.val();
+			var date = new Date(data[2]);
+
+			if (
+				(min === null && max === null) ||
+				(min === null && date <= max) ||
+				(min <= date && max === null) ||
+				(min <= date && date <= max)
+			) {
+				return true;
+			}
+			return false;
+		}
+	);
+
 	$(document).ready(function() {
 		var dataSrc = [];
 
+		// Create date inputs
+		minDate = new DateTime($('#min'), {
+			format: 'L'
+		});
+		maxDate = new DateTime($('#max'), {
+			format: 'L'
+		});
+
 		var table = $('#orders').DataTable({
+			autoFill: true,
 			"order": [
-				[1, "desc"]
+				[2, "desc"]
 			],
 			'initComplete': function() {
 				var api = this.api();
@@ -161,24 +173,30 @@
 					});
 			}
 		});
+
+		// Refilter the table
+		$('#min, #max').on('change', function() {
+			table.draw();
+		});
+
 	});
 
 	$(".edit").click(function() {
-		location.href = "edit/" + $(this).val();
+		location.href = "/edit/" + $(this).val();
 	});
 
 	$(".delete").click(function() {
 		$.ajax({
-			url: "delete/" + $(this).val(),
+			url: "/delete/" + $(this).val(),
 			type: "POST",
 			success: function() {
-				location.href = "/public";
+				location.href = "/";
 			}
 		});
 	});
 
 	$(".print").click(function() {
-		window.open('print/' + $(this).val());
+		var newWindow = window.open('/print/' + $(this).val());
 	});
 </script>
 

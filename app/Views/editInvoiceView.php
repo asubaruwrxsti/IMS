@@ -1,191 +1,139 @@
 <html>
 
-<head>
-    <script src="\public\node_modules\jquery\dist\jquery.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="\public\bootstrap3-typeahead.js"></script>
-    <link href="\public\bootstrap.css" rel="stylesheet">
-    <link href="\public\typeaheadjs.css" rel="stylesheet">
-
-    <script type="text/javascript" src="\public\node_modules\datatables.net\js\jquery.dataTables.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-            position: sticky;
-            top: 0;
-            width: 100%;
-        }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover:not(.active) {
-            background-color: #111;
-        }
-
-        .active {
-            background-color: #04AA6D;
-        }
-
-        input[type=text],
-        select {
-            width: 70%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type=submit] {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type=submit]:hover {
-            background-color: #45a049;
-        }
-
-        button {
-            width: 7%;
-            height: 5%;
-            padding: 10px 0;
-            margin: 10px auto;
-            border-radius: 5px;
-            border: none;
-            background: #8ebf42;
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        button:hover {
-            background: #82b534;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 70%;
-            margin-left: auto;
-            margin-right: auto;
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            text-align: right;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
-</head>
-
 <body>
-    <ul>
-        <li><a href="/public/">Faturat Aktive</a></li>
-        <li><a href="/public/create/">Krijo Fature</a></li>
-        <li><a href="/public/archivedView/">Arkiva</a></li>
+    <ul class="ul">
+        <li class="li"><a class="a" href="/">Faturat Aktive</a></li>
+        <li class="li"><a class="a" href="/create/">Krijo Fature</a></li>
+        <li class="li"><a class="a" href="/archivedView/">Arkiva</a></li>
+        <li class="li"><a class="a" href="/inventory">Inventory</a></li>
     </ul>
     <h1> Edito Fature </h1>
     <?php foreach ($data->getResult() as $key) { ?>
-        <form action="/public/editInvoice/<?= $key->ID ?>" method="post" style="margin: auto; text-align: center;">
-            <table>
-                <tr>
-                    <th>Emri:</th>
-                    <td> <input type='text' name='First_Name' placeholder='<?= $key->First_Name ?>' value = <?= $key->First_Name ?> </input> </td>
-                </tr>
-                <tr>
-                    <th>Mbiemri:</th>
-                    <td> <input type='text' name='Last_Name' placeholder='<?= $key->Last_Name ?>' value = '<?= $key->Last_Name ?>'> </input> </td>
-                </tr>
-                <tr>
-                    <th>Kontakt:</th>
-                    <td> <input type='text' name='Contact' placeholder='<?= $key->Contact ?>' value='<?= $key->Contact ?>'> </input>
-                </tr>
-                <tr>
-                    <th>Marresi:</td>
-                    <td> <input type='text' name='Device' placeholder='<?= $key->Device ?>' value='<?= $key->Device ?>'></input> </td>
-                </tr>
-                <tr>
-                    <th>Sasia:</th>
-                    <td> <input type='number' name='Qty' placeholder='<?= $key->Qty ?>' value='<?= $key->Qty ?>'></input> </td>
-                </tr>
-                <tr>
-                    <th> <label for='Status_Repaired'>Statusi i riparimit:</label></th>
-                    <td> <select id='Status_Repaired' name='Status_Repaired'>
-                            <option value='0'> Pa riparuar </option>
-                            <option value='1'> Riparuar </option>
-                        </select> </td>
-                    <script>
-                        document.getElementById("Status_Repaired").selectedIndex = '<?= $key->Status_Repaired ?>';
-                    </script>
-                </tr>
-                <tr>
-                    <th>Cmimi:</th>
-                    <td> <input type='number' name='Price' placeholder='<?= $key->Price ?>' value='<?= $key->Price ?>'></input> </td>
-                </tr>
-                <tr>
-                    <th> <label for='Status_Paid'>Statusi i pagimit:</label> </th>
-                    <td> <select id='Status_Paid' name='Status_Paid'>
-                            <option value='0'> Pa Paguar </option>
-                            <option value='1'> Paguar </option>
-                        </select> </td>
-                    <script>
-                        document.getElementById("Status_Paid").selectedIndex = '<?= $key->Status_Paid ?>';
-                    </script>
-                </tr>
-                <tr>
-                    <th><label for='Status_Dispatched'>Statusi i dorezimit:</label></th>
-                    <td><select id='Status_Dispatched' name='Status_Dispatched'>
-                            <option value='0'> Pa Dorezuar </option>
-                            <option value='1'> Dorezuar </option>
-                        </select></td>
-                    <script>
-                        document.getElementById("Status_Dispatched").selectedIndex = '<?= $key->Status_Dispatched ?>';
-                    </script>
-                </tr>
-                <tr>
-                    <th> Dorezuesi: </th>
-                    <td> <input type='text' name='Operator_Dispatch' placeholder='<?= $key->Operator_Dispatch ?>' value='<?= $key->Operator_Dispatch ?>'></input> </td>
-                </tr>
-                <tr>
-                    <th> Komente: </th>
-                    <td> <input type='text' name='Comments' placeholder='<?= $key->Comments ?>' value='<?= $key->Comments ?>' style='resize: none;' rows='4' cols='38'></input> </td>
-                </tr>
-            </table>
-            <button type='submit' id="submit_button" value="<?= $key->ID ?>">Save</button>
+        <form action="/editInvoice/<?= $key->ID ?>" method="post">
+            <div class="container mx-auto border border-secondary rounded px-4 bg-light">
+
+                <div class="form-group pt-3">
+                    <div class="row">
+
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Emri</span>
+                                </div>
+                                <input type='text' name='First_Name' class="form-control" placeholder='<?= $key->First_Name ?>'> </input>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Mbiemri</span>
+                                </div>
+                                <input type='text' name='Last_Name' class="form-control" placeholder='<?= $key->Last_Name ?>'> </input>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Kontakt</span>
+                                </div>
+                                <input type='text' name='Contact' class="form-control" placeholder='<?= $key->Contact ?>' value='<?= $key->Contact ?>'> </input>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+
+                        <div class="col-auto">
+                            <label for="Device">Paisja:</label>
+                            <input type='text' name='Device' class="form-control" placeholder='<?= $key->Device ?>' value='<?= $key->Device ?>'> </input>
+                        </div>
+
+                        <div class="col-auto">
+                            <label for="Qty">Sasia:</label>
+                            <input type='number' name='Qty' class="form-control" placeholder='<?= $key->Qty ?>' value='<?= $key->Qty ?>'> </input>
+                        </div>
+
+                        <div class="col-auto">
+                            <label for="Qty">Cmimi:</label>
+                            <input type='number' name='Price' class="form-control" placeholder='<?= $key->Price ?>' value='<?= $key->Price ?>'> </input>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+
+                        <div class="col-auto">
+                            <label for="Status_Repaired">Statusi i riparimit:</label>
+                            <select id='Status_Repaired' name='Status_Repaired' class="custom-select">
+                                <option value='0'> Pa riparuar </option>
+                                <option value='1'> Riparuar </option>
+                            </select>
+                        </div>
+                        <script>
+                            document.getElementById("Status_Repaired").selectedIndex = '<?= $key->Status_Repaired ?>';
+                        </script>
+
+                        <div class="col-auto">
+                            <label for="Status_Paid">Statusi i pagimit:</label>
+                            <select id='Status_Paid' name='Status_Paid' class="custom-select">
+                                <option value='0'> Pa Paguar </option>
+                                <option value='1'> Paguar </option>
+                            </select>
+                        </div>
+                        <script>
+                            document.getElementById("Status_Paid").selectedIndex = '<?= $key->Status_Paid ?>';
+                        </script>
+
+                        <div class="col-auto">
+                            <label for="Status_Dispatched">Statusi i dorezimit:</label>
+                            <select id='Status_Dispatched' name='Status_Dispatched' class="custom-select">
+                                <option value='0'> Pa Dorezuar </option>
+                                <option value='1'> Dorezuar </option>
+                            </select>
+                        </div>
+                        <script>
+                            document.getElementById("Status_Dispatched").selectedIndex = '<?= $key->Status_Dispatched ?>';
+                        </script>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label for="Operator_Dispatch">Dorezuesi:</label>
+                            <input type='text' name='Operator_Dispatch' class="form-control" placeholder='<?= $key->Operator_Dispatch ?>' value='<?= $key->Operator_Dispatch ?>'> </input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Komente</span>
+                    </div>
+                    <textarea type='text' name='Comments' class="form-control" placeholder='<?= $key->Comments ?>' value='<?= $key->Comments ?>'> </textarea>
+                </div>
+
+                <div class="btn- mb-3" role="toolbar">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button type='submit' class="btn btn-success" id="submit_button" value="<?= $key->ID ?>">Save</button>
+                    </div>
+
+                    <div class="btn-group mr-2" role="group">
+                        <a href="/"><button type='button' class="btn btn-danger">Cancel</button></a>
+                    </div>
+                </div>
+
+            </div>
         <?php } ?>
         </form>
-
 </body>
 
 </html>

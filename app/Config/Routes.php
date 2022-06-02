@@ -31,16 +31,20 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/login/', 'userController::index');
+
 $routes->add('/', 'invoiceController::index');
-$routes->add('/checkLogin', 'userController::checkLogin');
 $routes->add('/create/', 'invoiceController::create');
 $routes->add('/createInvoice/', 'invoiceController::createInvoice');
-$routes->add('/archivedView/','invoiceController::archive');
+$routes->add('/archivedView/', 'invoiceController::archive');
 $routes->add('/edit/(:num)', 'invoiceController::edit/$1');
 $routes->add('/editInvoice/(:num)', 'invoiceController::editInvoice/$1');
 $routes->add('/delete/(:num)', 'invoiceController::delete/$1');
 $routes->add('/print/(:num)', 'invoiceController::print/$1');
+
+$routes->add('/inventory', 'inventoryController::index/1');
+$routes->add('/inventory/add/(:num)', 'inventoryController::add/$1');
+$routes->add('/inventory/delete/(:num)', 'inventoryController::delete/$1');
+$routes->add('/inventory/edit/(:num)', 'inventoryController::edit/$1');
 
 /*
  * --------------------------------------------------------------------
