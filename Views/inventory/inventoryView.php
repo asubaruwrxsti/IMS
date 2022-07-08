@@ -3,10 +3,10 @@
 <body>
 
     <ul class="ul">
-        <li class="li"><a class="a" href="/">Faturat Aktive</a></li>
-        <li class="li"><a class="a" href="/create/">Krijo Fature</a></li>
-        <li class="li"><a class="a" href="/archivedView/">Arkiva</a></li>
-        <li class="li"><a class="active a" href="/inventory">Inventory</a></li>
+        <li class="li"><a class="a" href="/public/">Faturat Aktive</a></li>
+        <li class="li"><a class="a" href="/public/create/">Krijo Fature</a></li>
+        <li class="li"><a class="a" href="/public/archivedView/">Arkiva</a></li>
+        <li class="li"><a class="active a" href="/public/inventory">Inventory</a></li>
     </ul>
 
     <h1>Inventory</h1>
@@ -199,7 +199,7 @@
         var toast_element = document.getElementById('Toast');
 
         $('#remove').click(function() {
-            var product_id = $('.selected').find('td:first').attr('id');
+            var product_id = $('#inventory tbody tr.selected').attr('id');
 
             $('#title').text("Success");
             $('#time').text("Just now");
@@ -209,7 +209,7 @@
             toast.show();
 
             $.ajax({
-                url: '/inventory/delete/' + product_id,
+                url: '/public/inventory/delete/' + product_id,
                 type: 'DELETE',
                 success: function(result) {
                     table.row('.selected').remove().draw(false);
@@ -237,7 +237,7 @@
             var toast = new bootstrap.Toast(toast_element);
 
             $.ajax({
-                url: '/inventory/add/' + user_id,
+                url: '/public/inventory/add/' + user_id,
                 type: 'POST',
                 data: {
                     product: product,
@@ -294,6 +294,7 @@
             e.preventDefault();
 
             var user_id = $('#user_id').val();
+            var product_id = $('#inventory tbody tr.selected').attr('id');
 
             var product = $('#product_edit').val();
             var qty = $('#qty_edit').val();
@@ -302,9 +303,10 @@
             var toast = new bootstrap.Toast(toast_element);
 
             $.ajax({
-                url: '/inventory/edit/' + user_id,
+                url: '/public/inventory/edit/' + user_id,
                 type: 'POST',
                 data: {
+                    product_id: product_id,
                     product: product,
                     qty: qty,
                     SN: SN
@@ -326,7 +328,6 @@
                     toast.show();
 
                     $('#editModal').modal('hide');
-
                 }
             });
         });
@@ -337,7 +338,7 @@
             var user_id = $('#user_id').val();
 
             $.ajax({
-                url: '/inventory/get/' + user_id,
+                url: '/public/inventory/get/' + user_id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -349,7 +350,8 @@
                             item.product,
                             item.SN,
                             item.qty
-                        ]).draw(false);
+                        ]).node().id = item.id;
+                        table.draw(false);
                     });
 
                     $('#title').text("Success");

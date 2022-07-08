@@ -75,12 +75,12 @@
 
     .statusTrue {
         background-color: #04AA6D;
-        pointer-events: none;
+        /*pointer-events: none;*/
     }
 
     .statusFalse {
         background-color: #f54242;
-        pointer-events: none;
+        /*pointer-events: none;*/
     }
 
     .extra {
